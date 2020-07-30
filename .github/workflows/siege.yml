@@ -7,6 +7,10 @@ on:
         description: 'Concurrency'     
         required: true
         default: '20'
+      environment:
+        description: 'Environment dev|test'     
+        required: true
+        default: 'dev'
 jobs:
   siege:
     name: Put Server under siege
@@ -22,9 +26,10 @@ jobs:
             chmod a=rwx out
             auth=$(echo -n '${{secrets.HTTPAUTH_USERNAME}}:${{secrets.HTTPAUTH_PASSWORD}}' | openssl base64)
             docker run --rm -v $(PWD)/out:/var/log/ -t yokogawa/siege \
-                                   --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' https://get-into-teaching-app-dev.london.cloudapps.digital
+                                   --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' \
+                                   'https://get-into-teaching-app-${{agithub.event.inputs.environment}}.london.cloudapps.digital'
 
        - uses: actions/upload-artifact@v2
          with:
            name: siege.log 
-           path: out/siege.log
+           path: $(PWD)/out/siege.log
