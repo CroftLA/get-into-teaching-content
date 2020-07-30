@@ -19,9 +19,10 @@ jobs:
        - name: Run Tests
          run: |
             auth=$(echo -n '${{secrets.HTTPAUTH_USERNAME}}:${{secrets.HTTPAUTH_PASSWORD}}' | openssl base64)
-            docker run --rm -t yokogawa/siege --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' https://get-into-teaching-app-dev.london.cloudapps.digital
+            docker run --rm -v $(PWD)/siege.log:/var/log/siege.log -t yokogawa/siege \
+                                   --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' https://get-into-teaching-app-dev.london.cloudapps.digital
 
        - uses: actions/upload-artifact@v2
          with:
            name: siege.log 
-           path: /var/log/siege.log
+           path: siege.log
