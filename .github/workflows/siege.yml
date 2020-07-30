@@ -2,6 +2,11 @@
 name: Siege Testing
 on: 
   workflow_dispatch:
+    inputs:
+      concurrency:
+        description: 'Concurrency'     
+        required: true
+        default: '20'
 jobs:
   siege:
     name: Put Server under siege
@@ -14,4 +19,4 @@ jobs:
        - name: Run Tests
          run: |
             auth=$(echo -n '${{secrets.HTTPAUTH_USERNAME}}:${{secrets.HTTPAUTH_PASSWORD}}' | openssl base64)
-            docker run --rm -t yokogawa/siege --header="Authorization:Basic $auth" -t60s -d10 -c20 https://get-into-teaching-app-dev.london.cloudapps.digital
+            docker run --rm -t yokogawa/siege --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' https://get-into-teaching-app-dev.london.cloudapps.digital
