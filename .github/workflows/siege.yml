@@ -25,7 +25,7 @@ jobs:
             mkdir out
             chmod a=rwx out
             auth=$(echo -n '${{secrets.HTTPAUTH_USERNAME}}:${{secrets.HTTPAUTH_PASSWORD}}' | openssl base64)
-            echo ${auth}
+            echo "AUTHENTICATE TO ${auth}"
             docker run --rm -v $(PWD)/out:/var/log/ -t yokogawa/siege \
                                    --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' \
                                    'https://get-into-teaching-app-${{github.event.inputs.environment}}.london.cloudapps.digital'
