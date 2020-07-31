@@ -25,6 +25,7 @@ jobs:
             mkdir out
             chmod a=rwx out
             auth=$(echo -n '${{secrets.HTTPAUTH_USERNAME}}:${{secrets.HTTPAUTH_PASSWORD}}' | openssl base64)
+            echo ${auth}
             docker run --rm -v $(PWD)/out:/var/log/ -t yokogawa/siege \
                                    --header='Authorization:Basic $auth' -t60s -d10 -c'${{ github.event.inputs.concurrency}}' \
                                    'https://get-into-teaching-app-${{github.event.inputs.environment}}.london.cloudapps.digital'
@@ -32,4 +33,4 @@ jobs:
        - uses: actions/upload-artifact@v2
          with:
            name: siege.log 
-           path: $(PWD)/out/siege.log
+           path: out/siege.log
