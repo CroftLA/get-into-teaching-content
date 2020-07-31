@@ -26,7 +26,7 @@ jobs:
             chmod a=rwx out
             auth=$(echo -n '${{secrets.HTTPAUTH_USERNAME}}:${{secrets.HTTPAUTH_PASSWORD}}' | openssl base64)
             docker run --rm -v $(PWD)/out:/var/log/ -t yokogawa/siege \
-                                   --header='Authorization:Basic ${{auth}}' -l -t60s -d10 -c'${{ github.event.inputs.concurrency}}' \
+                                   --header='Authorization:Basic ${auth}' -l -t60s -d10 -c'${{ github.event.inputs.concurrency}}' \
                                    'https://get-into-teaching-app-${{github.event.inputs.environment}}.london.cloudapps.digital'
 
        - uses: actions/upload-artifact@v2
