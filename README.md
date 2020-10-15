@@ -35,3 +35,5 @@ The following rules have been added:
 - 10038	IGNORE	(Content Security Policy (CSP) Header Not Set)
 - 10063	IGNORE	(Feature Policy Header Not Set)
 - 40025	IGNORE	(Proxy Disclosure)
+
+Thu Oct 15 15:57:53 UTC 2020
