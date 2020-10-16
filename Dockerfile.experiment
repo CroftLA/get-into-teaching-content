@@ -1,5 +1,5 @@
 ARG APP_SHA
-FROM dfedigital/get-into-teaching-web:sha-5fe203c
+FROM dfedigital/get-into-teaching-web:sha-37cf0a1
 
 COPY content app/views/content
 COPY assets public/assets
